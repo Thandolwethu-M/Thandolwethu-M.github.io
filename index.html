@@ -27,12 +27,15 @@
         <section id="about" class="glass-card">
             <h2 class="gradient-text">About Me</h2>
             <p>
-                Hi! I’m Thandolwethu Mbanjwa, a passionate software developer. I love building modern web applications and solving real-world problems through code. Welcome to my portfolio!
+                Hi! I'm Thandolwethu Mbanjwa, a passionate software developer. I love building modern web applications and solving real-world problems through code. Welcome to my portfolio!
             </p>
         </section>
         <section id="projects" class="glass-card">
-            <h2 class="gradient-text">Projects</h2>
-            <div class="projects-list">
+            <div class="projects-header">
+                <h2 class="gradient-text">Projects</h2>
+                <button id="add-project-btn" class="add-project-button">+ Add Project</button>
+            </div>
+            <div class="projects-list" id="projects-list">
                 <div class="project-card placeholder">
                     <h3>Coming Soon!</h3>
                     <p>
@@ -41,25 +44,102 @@
                 </div>
             </div>
         </section>
-    <h2>Contact Us</h2>
-    <form>
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        <label for="email-phone">Email/Phone:</label>
-        <input type="text" id="email-phone" name="email-phone" required>
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" required></textarea>
-        <button type="submit">Send</button>
-    </form>
-</section>
+        <section id="contact" class="glass-card">
+            <h2>Contact Us</h2>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email-phone">Email/Phone:</label>
+                <input type="text" id="email-phone" name="email-phone" required>
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit">Send</button>
+            </form>
             <p>
                 Interested in working together or want to connect? Email me at 
-                <a href="mailto:tcele7088@gmail.com" class="email-link">your.email@example.com</a>
+                <a href="mailto:tcele7088@gmail.com" class="email-link">tcele7088@gmail.com</a>
             </p>
         </section>
     </main>
     <footer>
         <p>&copy; 2025 Thandolwethu Mbanjwa. All rights reserved.</p>
     </footer>
+
+    <!-- Modal for adding new projects -->
+    <div id="project-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Project</h2>
+            <form id="project-form">
+                <label for="project-title">Project Title:</label>
+                <input type="text" id="project-title" name="project-title" required>
+                
+                <label for="project-description">Description:</label>
+                <textarea id="project-description" name="project-description" required></textarea>
+                
+                <label for="project-link">Project Link (optional):</label>
+                <input type="url" id="project-link" name="project-link" placeholder="https://example.com">
+                
+                <button type="submit">Add Project</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Get modal and button elements
+        const modal = document.getElementById('project-modal');
+        const addBtn = document.getElementById('add-project-btn');
+        const closeBtn = document.querySelector('.close');
+        const projectForm = document.getElementById('project-form');
+        const projectsList = document.getElementById('projects-list');
+
+        // Open modal when Add Project button is clicked
+        addBtn.addEventListener('click', function() {
+            modal.style.display = 'block';
+        });
+
+        // Close modal when X is clicked
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside of it
+        window.addEventListener('click', function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Handle form submission
+        projectForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const title = document.getElementById('project-title').value;
+            const description = document.getElementById('project-description').value;
+            const link = document.getElementById('project-link').value;
+
+            // Remove placeholder if it exists
+            const placeholder = projectsList.querySelector('.placeholder');
+            if (placeholder) {
+                placeholder.remove();
+            }
+
+            // Create new project card
+            const projectCard = document.createElement('div');
+            projectCard.className = 'project-card';
+            projectCard.innerHTML = `
+                <h3>${title}</h3>
+                <p>${description}</p>
+                ${link ? `<a href="${link}" target="_blank" class="project-link">View Project →</a>` : ''}
+            `;
+
+            // Add project card to list
+            projectsList.appendChild(projectCard);
+
+            // Clear form and close modal
+            projectForm.reset();
+            modal.style.display = 'none';
+        });
+    </script>
 </body>
 </html>
